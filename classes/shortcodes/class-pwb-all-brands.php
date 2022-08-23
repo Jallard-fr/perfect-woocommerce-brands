@@ -107,12 +107,18 @@ class PWB_All_Brands_Shortcode {
 			?>
 				<div class="pwb-brands-cols-outer">
 					<?php
+					$column = 1;
 					foreach ( $out_array as $brand ) :
-
+						if ( $column ==1 )
+						{
+							?>
+							<div class="brands-row">
+							<?php
+						}
+						$column = $column + 1;
 						$brand_id   = $brand->term_id;
 						$brand_name = $brand->name;
 						$brand_link = get_term_link( $brand_id );
-
 						$attachment_id   = get_term_meta( $brand_id, 'pwb_brand_image', 1 );
 						$attachment_html = $brand_name;
 						if ( $attachment_id != '' ) {
@@ -130,11 +136,11 @@ class PWB_All_Brands_Shortcode {
 									</p>
 								<?php endif; ?>
 								<div>
-									<a href="<?php echo esc_url( $brand_link ); ?>" title="<?php echo esc_html( $brand_name ); ?>">
-										<?php echo wp_kses_post( $attachment_html ); ?>
-									</a>
+								<a href="<?php echo esc_url( $brand_link ); ?>" title="<?php echo esc_html( $brand_name ); ?>">
+									<?php echo wp_kses_post( $attachment_html ); ?>
+								</a>
 								</div>
-								<?php if ( $title_position != 'none' && $title_position == 'after' ) : ?>
+																<?php if ( $title_position != 'none' && $title_position == 'after' ) : ?>
 									<p>
 										<a href="<?php echo esc_html( $brand_link ); ?>">
 											<?php echo wp_kses_post( $brand_name ); ?>
@@ -143,7 +149,15 @@ class PWB_All_Brands_Shortcode {
 									</p>
 								<?php endif; ?>
 							</div>
-					<?php endforeach; ?>
+					<?php 
+					if ( $column == 5 )
+					{
+						$column = 1;
+						?>
+						</div>
+						<?php
+					}
+					endforeach; ?>
 				</div>
 			<?php
 			$next = $page + 1;
